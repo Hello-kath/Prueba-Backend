@@ -1,13 +1,11 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv()  # Carga las variables de entorno desde .env
 
 class Config:
-    # Clave secreta para generar y verificar tokens JWT
+    MONGO_URI = os.getenv("MONGO_URI")
     JWT_SECRET = os.getenv("JWT_SECRET")
-    
-    # Configuración para enviar correos electrónicos desde la API
     EMAIL = os.getenv("EMAIL")
     EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
-    
-    # Otras configuraciones 
-    DEBUG = os.getenv("FLASK_DEBUG") == "True"  
-
+    FLASK_DEBUG = os.getenv("FLASK_DEBUG", False)  # Valor predeterminado False si no se encuentra
