@@ -157,7 +157,7 @@ def listarContactos():
     contactos = db.Contactos.find({}, {"password": 0}).sort("nombreContacto", 1)  
 
     # Convertir los resultados a una lista
-    contactosList = list(contactos)
+    contactosList = [{"_id": str(contacto["_id"]), **contacto} for contacto in contactos]
 
     if not contactosList:
         return {"error": "No hay contactos registrados"}, 404
