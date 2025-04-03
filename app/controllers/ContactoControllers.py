@@ -4,6 +4,7 @@ from app.config import Config
 import jwt
 import os
 import smtplib
+from bson import ObjectId
 from email.mime.text import MIMEText
 
 
@@ -157,7 +158,9 @@ def listarContactos():
     contactos = db.Contactos.find({}, {"_id": 1, "password": 0}).sort("nombreContacto", 1)    
 
     # Convertir los resultados a una lista
-    contactosList = [{"_id": str(contacto["_id"]), **contacto} for contacto in contactos]
+    contactosList = [
+            {**contacto, "_id": str(contacto["_id"])} for contacto in contactos
+        ]
 
     if not contactosList:
         return {"error": "No hay contactos registrados"}, 404
