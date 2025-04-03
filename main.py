@@ -1,5 +1,6 @@
 import os
 from flask import Flask, jsonify
+from flask_cors import CORS
 from app.config import Config
 from app.DB.DBconnection import connectionMongo
 from app.routes.ContactoRoutes import contactosRuta
@@ -7,6 +8,9 @@ from app.routes.BuscarRoutes import buscarContR
 
 # Inicializar la aplicación Flask
 app = Flask(__name__)
+
+# Configurar CORS con soporte para credenciales
+CORS(app,  resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 # Cargar configuraciones desde config.py
 app.config.from_object(Config)
