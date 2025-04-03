@@ -155,8 +155,24 @@ def listarContactos():
         return {"error": "Error de conexión con la base de datos"}, 500
 
     # Obtener todos los contactos 
-    contactos = db.Contactos.find({}, {"_id": 1, "password": 0}).sort("nombreContacto", 1)    
+# Función para obtener todos los contactos registrados
+def listarContactos():
+    # Conectar a la base de datos
+    db = connectionMongo()
+    if db is None:
+        return {"error": "Error de conexión con la base de datos"}, 500
 
+    # Obtener todos los contactos 
+    contactos = db.Contactos.find({}, {"password": 0}).sort("nombreContacto", 1)
+    # Convertir los resultados a una lista
+    contactosList = [
+            {**contacto, "_id": str(contacto["_id"])} for contacto in contactos
+        ]
+
+    if not contactosList:
+        return {"error": "No hay contactos registrados"}, 404
+
+    return {"contactos": contactosList}, 200
     # Convertir los resultados a una lista
     contactosList = [
             {**contacto, "_id": str(contacto["_id"])} for contacto in contactos
