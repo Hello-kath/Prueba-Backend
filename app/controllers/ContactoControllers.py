@@ -154,7 +154,7 @@ def listarContactos():
         return {"error": "Error de conexión con la base de datos"}, 500
 
     # Obtener todos los contactos 
-    contactos = db.Contactos.find({}, {"password": 0}).sort("nombreContacto", 1)  
+    contactos = db.Contactos.find({}, {"_id": 1, "password": 0}).sort("nombreContacto", 1)    
 
     # Convertir los resultados a una lista
     contactosList = [{"_id": str(contacto["_id"]), **contacto} for contacto in contactos]
